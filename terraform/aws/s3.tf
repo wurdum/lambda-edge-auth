@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "spa" {
-  bucket = "wu-spa-${var.project_name}"
-  acl    = "private"
+  bucket_prefix = "wu-spa-${var.project_name}"
+  acl           = "private"
 }
 
 resource "aws_s3_bucket_object" "index_html" {
