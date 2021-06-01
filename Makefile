@@ -15,7 +15,8 @@ tf-lambda-apply:
 	@echo 'Done!'
 
 build:
-	@echo 'Building docker image'
+	@echo 'Building code and docker image'
+	npm run build
 	docker build -t $(project_name) .
 	@echo 'Done!'
 
@@ -28,5 +29,6 @@ tag:
 push:
 	@echo 'Push built image'
 	aws ecr get-login-password | docker login --username AWS --password-stdin $(account_id).dkr.ecr.us-east-1.amazonaws.com
-	docker push -a $(account_id).dkr.ecr.us-east-1.amazonaws.com/$(project_name)
+	docker push $(account_id).dkr.ecr.us-east-1.amazonaws.com/$(project_name):latest
+	docker push $(account_id).dkr.ecr.us-east-1.amazonaws.com/$(project_name):$(version)
 	@echo 'Done!'
