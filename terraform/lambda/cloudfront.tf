@@ -48,6 +48,18 @@ resource "aws_cloudfront_distribution" "spa_distribution" {
         forward = "none"
       }
     }
+
+    lambda_function_association {
+      event_type   = "viewer-request"
+      lambda_arn   = aws_lambda_function.check_auth.qualified_arn
+      include_body = false
+    }
+
+    lambda_function_association {
+      event_type   = "origin-response"
+      lambda_arn   = aws_lambda_function.http_headers.qualified_arn
+      include_body = false
+    }
   }
 
   ordered_cache_behavior {
@@ -63,6 +75,12 @@ resource "aws_cloudfront_distribution" "spa_distribution" {
       cookies {
         forward = "none"
       }
+    }
+
+    lambda_function_association {
+      event_type   = "viewer-request"
+      lambda_arn   = aws_lambda_function.parse_auth.qualified_arn
+      include_body = false
     }
   }
 
@@ -80,6 +98,12 @@ resource "aws_cloudfront_distribution" "spa_distribution" {
         forward = "none"
       }
     }
+
+    lambda_function_association {
+      event_type   = "viewer-request"
+      lambda_arn   = aws_lambda_function.refresh_auth.qualified_arn
+      include_body = false
+    }
   }
 
   ordered_cache_behavior {
@@ -95,6 +119,12 @@ resource "aws_cloudfront_distribution" "spa_distribution" {
       cookies {
         forward = "none"
       }
+    }
+
+    lambda_function_association {
+      event_type   = "viewer-request"
+      lambda_arn   = aws_lambda_function.sign_out.qualified_arn
+      include_body = false
     }
   }
 
