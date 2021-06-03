@@ -1,0 +1,36 @@
+{
+  "userPoolArn": "arn:aws:cognito-idp:us-east-1:590320146706:userpool/us-east-1_CEkT3u48a",
+  "clientId": "6kdlnv1lg2r7v022m3iurb64eg",
+  "clientSecret": "",
+  "oauthScopes": [
+    "phone",
+    "email",
+    "profile",
+    "openid",
+    "aws.cognito.signin.user.admin"
+  ],
+  "cognitoAuthDomain": "auth-d397e790-bee8-11eb-85d9-0e713d9d57d5.auth.us-east-1.amazoncognito.com",
+  "redirectPathSignIn": "/parseauth",
+  "redirectPathSignOut": "/",
+  "redirectPathAuthRefresh": "/refreshauth",
+  "cookieSettings": {
+    "idToken": null,
+    "accessToken": null,
+    "refreshToken": null,
+    "nonce": null
+  },
+  "mode": "spaMode",
+  "httpHeaders": {
+    "Content-Security-Policy": "default-src 'none'; img-src 'self'; script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com; style-src 'self' 'unsafe-inline' https://stackpath.bootstrapcdn.com; object-src 'none'; connect-src 'self' https://*.amazonaws.com https://*.amazoncognito.com",
+    "Strict-Transport-Security": "max-age=31536000; includeSubdomains; preload",
+    "Referrer-Policy": "same-origin",
+    "X-XSS-Protection": "1; mode=block",
+    "X-Frame-Options": "DENY",
+    "X-Content-Type-Options": "nosniff"
+  },
+  "logLevel": "none",
+  "nonceSigningSecret": "vb9Bn~GlK6~_PhFM",
+  "cookieCompatibility": "amplify",
+  "additionalCookies": {},
+  "requiredGroup": ""
+}
