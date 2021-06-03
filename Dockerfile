@@ -1,4 +1,5 @@
 FROM public.ecr.aws/lambda/nodejs:12
-COPY dist/* package*.json ./
+COPY . ./
 RUN npm install
-CMD [ "index.lambdaHandler1" ]
+RUN npm run build
+CMD [ "dist/index.lambdaHandler1" ]

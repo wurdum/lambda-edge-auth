@@ -4,6 +4,12 @@ account_id=590320146706
 
 all: tf-aws-apply build tag push tf-lambda-apply
 
+test:
+	@echo 'Building and running lambda locally'
+	docker build -t lambda-edge-auth:latest .
+	docker run --rm --name lambda-edge-auth -p 9000:8080 lambda-edge-auth:latest
+	@echo 'Done!'
+
 tf-aws-apply:
 	@echo 'terraform plan aws and apply'
 	terraform -chdir=terraform/aws apply -auto-approve
@@ -13,7 +19,6 @@ tf-lambda-apply:
 	@echo 'terraform plan lambda and apply'
 	terraform -chdir=terraform/lambda apply -auto-approve
 	@echo 'Done!'
-
 build:
 	@echo 'Building code and docker image'
 	npm run build
