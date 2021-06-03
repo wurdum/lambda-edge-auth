@@ -1,3 +1,6 @@
 temp
 dist
+terraform
 node_modules
+Makefile
+Dockerfile

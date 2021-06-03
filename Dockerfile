@@ -12,4 +12,4 @@ COPY --from=build /src/package*.json ./
 RUN npm install --only=production
 
 COPY --from=build /src/dist ./
-CMD [ "index.lambdaHandler1" ]
+CMD [ "index.httpHeadersHandler" ]
