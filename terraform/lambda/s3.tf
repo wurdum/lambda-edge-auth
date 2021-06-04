@@ -42,3 +42,33 @@ data "aws_iam_policy_document" "spa_cloudfront" {
     resources = ["${aws_s3_bucket.spa.arn}"]
   }
 }
+
+resource "aws_s3_bucket" "lambda" {
+  bucket_prefix = "wu-lambda-${var.project_name}"
+  acl           = "private"
+}
+
+resource "aws_s3_bucket_object" "lambda_package" {
+  bucket = aws_s3_bucket.lambda.bucket
+  key    = "package.zip"
+  source = "../../dist/package.zip"
+
+  content_type  = "application/zip"
+  cache_control = "no-cache"
+
+  etag = filemd5("../../dist/package.zip")
+}
+
+resource "aws_s3_bucket_object" "lambda_package_hash" {
+  bucket  = aws_s3_bucket.lambda.bucket
+  key     = "package-hash.txt"
+  content = filebase64sha256("../../dist/package.zip")
+
+  content_type  = "plain/text"
+  cache_control = "no-cache"
+}
+
+data "aws_s3_bucket_object" "lambda_package_hash_data" {
+  bucket = aws_s3_bucket.lambda.bucket
+  key    = aws_s3_bucket_object.lambda_package_hash.key
+}

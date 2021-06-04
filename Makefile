@@ -3,6 +3,7 @@ project_name=test-container-lambda
 account_id=590320146706
 
 all: tf-aws-apply build tag push tf-lambda-apply
+rebuild: clean build
 
 test:
 	@echo 'Building and running lambda locally'
@@ -19,10 +20,11 @@ tf-lambda-apply:
 	@echo 'terraform plan lambda and apply'
 	terraform -chdir=terraform/lambda apply -auto-approve
 	@echo 'Done!'
+
 build:
 	@echo 'Building code and docker image'
 	npm run build
-	docker build -t $(project_name) .
+	zip -j dist/package.zip dist/* package.json package-lock.json configuration.json
 	@echo 'Done!'
 
 tag:
@@ -36,4 +38,14 @@ push:
 	aws ecr get-login-password | docker login --username AWS --password-stdin $(account_id).dkr.ecr.us-east-1.amazonaws.com
 	docker push $(account_id).dkr.ecr.us-east-1.amazonaws.com/$(project_name):latest
 	docker push $(account_id).dkr.ecr.us-east-1.amazonaws.com/$(project_name):$(version)
+	@echo 'Done!'
+
+clean:
+	@echo 'Cleaning solution from temp files'
+	rm -rf dist temp
+	@echo 'Done!'
+
+clean-all:
+	@echo 'Cleaning solution from temp files'
+	rm -rf dist temp node_modules package-lock.json
 	@echo 'Done!'
