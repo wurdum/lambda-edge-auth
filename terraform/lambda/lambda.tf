@@ -7,7 +7,7 @@ resource "aws_lambda_function" "check_auth" {
 
   s3_bucket        = aws_s3_bucket.lambda.bucket
   s3_key           = aws_s3_bucket_object.lambda_package.key
-  source_code_hash = data.aws_s3_bucket_object.lambda_package_hash_data.body
+  source_code_hash = filebase64sha256("../../dist/package.zip")
 
   handler = "index.checkAuthHandler"
 }
@@ -21,7 +21,7 @@ resource "aws_lambda_function" "http_headers" {
 
   s3_bucket        = aws_s3_bucket.lambda.bucket
   s3_key           = aws_s3_bucket_object.lambda_package.key
-  source_code_hash = data.aws_s3_bucket_object.lambda_package_hash_data.body
+  source_code_hash = filebase64sha256("../../dist/package.zip")
 
   handler = "index.httpHeadersHandler"
 }
@@ -35,7 +35,7 @@ resource "aws_lambda_function" "parse_auth" {
 
   s3_bucket        = aws_s3_bucket.lambda.bucket
   s3_key           = aws_s3_bucket_object.lambda_package.key
-  source_code_hash = data.aws_s3_bucket_object.lambda_package_hash_data.body
+  source_code_hash = filebase64sha256("../../dist/package.zip")
 
   handler = "index.parseAuthHandler"
 }
@@ -49,7 +49,7 @@ resource "aws_lambda_function" "refresh_auth" {
 
   s3_bucket        = aws_s3_bucket.lambda.bucket
   s3_key           = aws_s3_bucket_object.lambda_package.key
-  source_code_hash = data.aws_s3_bucket_object.lambda_package_hash_data.body
+  source_code_hash = filebase64sha256("../../dist/package.zip")
 
   handler = "index.refreshAuthHandler"
 }
@@ -63,7 +63,7 @@ resource "aws_lambda_function" "sign_out" {
 
   s3_bucket        = aws_s3_bucket.lambda.bucket
   s3_key           = aws_s3_bucket_object.lambda_package.key
-  source_code_hash = data.aws_s3_bucket_object.lambda_package_hash_data.body
+  source_code_hash = filebase64sha256("../../dist/package.zip")
 
   handler = "index.signOutHandler"
 }
