@@ -1,6 +1,6 @@
 {
   "userPoolArn": "arn:aws:cognito-idp:us-east-1:590320146706:userpool/us-east-1_CEkT3u48a",
-  "clientId": "6kdlnv1lg2r7v022m3iurb64eg",
+  "clientId": "54lfv0bfd8dns094540c86u4gt",
   "clientSecret": "",
   "oauthScopes": [
     "phone",
