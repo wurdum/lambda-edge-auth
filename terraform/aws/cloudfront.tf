@@ -5,7 +5,7 @@ locals {
 }
 
 resource "aws_cloudfront_origin_access_identity" "spa_distribution_s3_origin_identity" {
-  comment = "S3 origin identity for ${aws_s3_bucket.spa.bucket_domain_name}."
+  comment = "S3 origin identity for ${data.terraform_remote_state.artifacts.outputs.spa_bucket_domain_name}."
 }
 
 resource "aws_cloudfront_distribution" "spa_distribution" {
@@ -22,7 +22,7 @@ resource "aws_cloudfront_distribution" "spa_distribution" {
   }
 
   origin {
-    domain_name = aws_s3_bucket.spa.bucket_regional_domain_name
+    domain_name = data.terraform_remote_state.artifacts.outputs.spa_bucket_regional_domain_name
     origin_id   = local.s3_origin_id
 
     s3_origin_config {
@@ -32,7 +32,7 @@ resource "aws_cloudfront_distribution" "spa_distribution" {
 
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "Serve ${aws_s3_bucket.spa.bucket_domain_name} via CloudFront."
+  comment             = "Serve ${data.terraform_remote_state.artifacts.outputs.spa_bucket_domain_name} via CloudFront."
   default_root_object = "index.html"
 
   default_cache_behavior {

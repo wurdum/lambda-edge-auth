@@ -2,12 +2,12 @@ version?=1.0
 project_name=test-container-lambda
 account_id=590320146706
 
-all: clean build tf-lambda-apply tf-aws-apply
+all: clean build tf-artifacts-apply tf-aws-apply
 rebuild: clean build
 
-tf-lambda-apply:
-	@echo 'terraform plan lambda and apply'
-	terraform -chdir=terraform/lambda apply -auto-approve
+tf-artifacts-apply:
+	@echo 'terraform plan artifacts and apply'
+	terraform -chdir=terraform/artifacts apply -auto-approve
 	@echo 'Done!'
 
 tf-aws-apply:

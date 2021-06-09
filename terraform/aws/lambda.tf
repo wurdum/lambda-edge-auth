@@ -1,3 +1,8 @@
+data "aws_s3_bucket_object" "lambda_package_hash_data" {
+  bucket = data.terraform_remote_state.artifacts.outputs.lambda_bucket
+  key    = data.terraform_remote_state.artifacts.outputs.lambda_package_hash_key
+}
+
 resource "aws_lambda_function" "check_auth" {
   function_name = "${var.project_name}-check-auth"
   role          = aws_iam_role._.arn
@@ -5,9 +10,9 @@ resource "aws_lambda_function" "check_auth" {
   publish = true
   runtime = "nodejs12.x"
 
-  s3_bucket        = aws_s3_bucket.lambda.bucket
-  s3_key           = aws_s3_bucket_object.lambda_package.key
-  source_code_hash = filebase64sha256("../../dist/package.zip")
+  s3_bucket        = data.terraform_remote_state.artifacts.outputs.lambda_bucket
+  s3_key           = data.terraform_remote_state.artifacts.outputs.lambda_package_key
+  source_code_hash = data.aws_s3_bucket_object.lambda_package_hash_data.body
 
   handler = "index.checkAuthHandler"
 }
@@ -19,9 +24,9 @@ resource "aws_lambda_function" "http_headers" {
   publish = true
   runtime = "nodejs12.x"
 
-  s3_bucket        = aws_s3_bucket.lambda.bucket
-  s3_key           = aws_s3_bucket_object.lambda_package.key
-  source_code_hash = filebase64sha256("../../dist/package.zip")
+  s3_bucket        = data.terraform_remote_state.artifacts.outputs.lambda_bucket
+  s3_key           = data.terraform_remote_state.artifacts.outputs.lambda_package_key
+  source_code_hash = data.aws_s3_bucket_object.lambda_package_hash_data.body
 
   handler = "index.httpHeadersHandler"
 }
@@ -33,9 +38,9 @@ resource "aws_lambda_function" "parse_auth" {
   publish = true
   runtime = "nodejs12.x"
 
-  s3_bucket        = aws_s3_bucket.lambda.bucket
-  s3_key           = aws_s3_bucket_object.lambda_package.key
-  source_code_hash = filebase64sha256("../../dist/package.zip")
+  s3_bucket        = data.terraform_remote_state.artifacts.outputs.lambda_bucket
+  s3_key           = data.terraform_remote_state.artifacts.outputs.lambda_package_key
+  source_code_hash = data.aws_s3_bucket_object.lambda_package_hash_data.body
 
   handler = "index.parseAuthHandler"
 }
@@ -47,9 +52,9 @@ resource "aws_lambda_function" "refresh_auth" {
   publish = true
   runtime = "nodejs12.x"
 
-  s3_bucket        = aws_s3_bucket.lambda.bucket
-  s3_key           = aws_s3_bucket_object.lambda_package.key
-  source_code_hash = filebase64sha256("../../dist/package.zip")
+  s3_bucket        = data.terraform_remote_state.artifacts.outputs.lambda_bucket
+  s3_key           = data.terraform_remote_state.artifacts.outputs.lambda_package_key
+  source_code_hash = data.aws_s3_bucket_object.lambda_package_hash_data.body
 
   handler = "index.refreshAuthHandler"
 }
@@ -61,9 +66,9 @@ resource "aws_lambda_function" "sign_out" {
   publish = true
   runtime = "nodejs12.x"
 
-  s3_bucket        = aws_s3_bucket.lambda.bucket
-  s3_key           = aws_s3_bucket_object.lambda_package.key
-  source_code_hash = filebase64sha256("../../dist/package.zip")
+  s3_bucket        = data.terraform_remote_state.artifacts.outputs.lambda_bucket
+  s3_key           = data.terraform_remote_state.artifacts.outputs.lambda_package_key
+  source_code_hash = data.aws_s3_bucket_object.lambda_package_hash_data.body
 
   handler = "index.signOutHandler"
 }

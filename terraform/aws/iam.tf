@@ -17,7 +17,7 @@ data "aws_iam_policy_document" "assume-role-policy" {
   }
 }
 
-resource aws_iam_role_policy logs_role_policy {
+resource "aws_iam_role_policy" "logs_role_policy" {
   name   = "${var.project_name}-logs-policy"
   role   = aws_iam_role._.id
   policy = data.aws_iam_policy_document.lambda_logs_policy_doc.json
@@ -36,5 +36,32 @@ data "aws_iam_policy_document" "lambda_logs_policy_doc" {
       # Log Groups in other regions
       "logs:CreateLogGroup"
     ]
+  }
+}
+
+resource "aws_s3_bucket_policy" "spa_policy" {
+  bucket = data.terraform_remote_state.artifacts.outputs.spa_bucket
+  policy = data.aws_iam_policy_document.spa_cloudfront.json
+}
+
+data "aws_iam_policy_document" "spa_cloudfront" {
+  statement {
+    effect  = "Allow"
+    actions = ["s3:GetObject"]
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.spa_distribution_s3_origin_identity.iam_arn]
+    }
+    resources = ["${data.terraform_remote_state.artifacts.outputs.spa_arn}/*"]
+  }
+
+  statement {
+    effect  = "Allow"
+    actions = ["s3:ListBucket"]
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.spa_distribution_s3_origin_identity.iam_arn]
+    }
+    resources = ["${data.terraform_remote_state.artifacts.outputs.spa_arn}"]
   }
 }

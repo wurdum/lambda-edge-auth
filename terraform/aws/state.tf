@@ -6,7 +6,7 @@ terraform {
   }
 }
 
-data "terraform_remote_state" "aws" {
+data "terraform_remote_state" "artifacts" {
   backend = "s3"
   config = {
     bucket = "wu-local-test-container-lambda"
