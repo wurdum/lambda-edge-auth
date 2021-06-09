@@ -1,6 +1,6 @@
 {
-  "userPoolArn": "arn:aws:cognito-idp:us-east-1:590320146706:userpool/us-east-1_CEkT3u48a",
-  "clientId": "5ogtnb9698o08kuq98ia272j1m",
+  "userPoolArn": "arn:aws:cognito-idp:us-east-1:590320146706:userpool/us-east-1_tdoweoGYx",
+  "clientId": "2vtu1s6pnctqm85070fd34mar0",
   "clientSecret": "",
   "oauthScopes": [
     "phone",
@@ -9,7 +9,7 @@
     "openid",
     "aws.cognito.signin.user.admin"
   ],
-  "cognitoAuthDomain": "auth-d397e790-bee8-11eb-85d9-0e713d9d57d5.auth.us-east-1.amazoncognito.com",
+  "cognitoAuthDomain": "auth-8bfca253-a3dd-cfcf-14d5-a20d1ad85132.auth.us-east-1.amazoncognito.com",
   "redirectPathSignIn": "/parseauth",
   "redirectPathSignOut": "/",
   "redirectPathAuthRefresh": "/refreshauth",

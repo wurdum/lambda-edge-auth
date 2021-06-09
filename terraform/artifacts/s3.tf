@@ -1,11 +1,7 @@
 locals {
-  spa_index_path      = "../../index.html"
-  lambda_package_path = "../../dist/package.zip"
-}
-
-resource "random_string" "random" {
-  length  = 16
-  special = false
+  spa_index_path        = "../../index.html"
+  lambda_package_path   = "../../dist/package.zip"
+  lambda_package_suffix = formatdate("YYYYMMDDhhmmss", timestamp())
 }
 
 resource "aws_s3_bucket" "spa" {
@@ -33,7 +29,7 @@ resource "aws_s3_bucket" "lambda" {
 
 resource "aws_s3_bucket_object" "lambda_package" {
   bucket = aws_s3_bucket.lambda.bucket
-  key    = "package-${random_string.random.result}.zip"
+  key    = "package-${local.lambda_package_suffix}.zip"
   source = local.lambda_package_path
 
   content_type  = "application/zip"
@@ -44,7 +40,7 @@ resource "aws_s3_bucket_object" "lambda_package" {
 
 resource "aws_s3_bucket_object" "lambda_package_hash" {
   bucket  = aws_s3_bucket.lambda.bucket
-  key     = "package-hash-${random_string.random.result}.txt"
+  key     = "package-hash-${local.lambda_package_suffix}.txt"
   content = filebase64sha256(local.lambda_package_path)
 
   content_type  = "plain/text"
