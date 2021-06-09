@@ -30,3 +30,9 @@ clean-all:
 	@echo 'Cleaning solution from temp files'
 	rm -rf dist temp node_modules package-lock.json
 	@echo 'Done!'
+
+tf-destroy:
+	@echo 'Destroying aws and artifacts'
+	terraform -chdir=terraform/aws apply -auto-approve -destroy
+	terraform -chdir=terraform/artifacts apply -auto-approve -destroy
+	@echo 'Done!'
