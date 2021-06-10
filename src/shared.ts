@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 import { CloudFrontHeaders } from "aws-lambda";
-import { readFileSync } from "fs";
+import { SSM } from "aws-sdk";
 import { createHmac } from "crypto";
 import { parse } from "cookie";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
@@ -149,10 +149,12 @@ export interface CompleteConfig extends Config, CompleteConfigFromDisk {
   nonceMaxAge: number;
 }
 
-export function getConfig(): Config {
-  const config = JSON.parse(
-    readFileSync(`${__dirname}/configuration.json`).toString("utf8")
-  ) as ConfigFromDisk;
+export async function getConfig(): Promise<Config> {
+  const ssm = new SSM({ region: 'us-east-1' });
+  const config = await ssm.getParameter({ Name: "test-container-lambda" })
+    .promise()
+    .then(data => JSON.parse(data.Parameter!.Value!)) as ConfigFromDisk;
+
   return {
     cloudFrontHeaders: asCloudFrontHeaders(config.httpHeaders),
     logger: new Logger(LogLevel[config.logLevel]),
@@ -160,11 +162,11 @@ export function getConfig(): Config {
   };
 }
 
-export function getCompleteConfig(): CompleteConfig {
-  const config = getConfig();
+export async function getCompleteConfig(): Promise<CompleteConfig> {
+  const config = await getConfig();
 
   if (!isCompleteConfig(config)) {
-    throw new Error("Incomplete config in configuration.json");
+    throw new Error("Incomplete config!");
   }
 
   // Derive the issuer and JWKS uri all JWT's will be signed with from the User Pool's ID and region:

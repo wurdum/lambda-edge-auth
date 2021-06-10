@@ -7,6 +7,7 @@ import {
 } from "querystring";
 import { CloudFrontRequestHandler } from "aws-lambda";
 import {
+  CompleteConfig,
   getCompleteConfig,
   extractAndParseCookies,
   generateCookieHeaders,
@@ -19,11 +20,11 @@ import {
   MissingRequiredGroupError,
 } from "./shared";
 
-let CONFIG: ReturnType<typeof getCompleteConfig>;
+let CONFIG: CompleteConfig;
 
 export const handler: CloudFrontRequestHandler = async (event) => {
   if (!CONFIG) {
-    CONFIG = getCompleteConfig();
+    CONFIG = await getCompleteConfig();
     CONFIG.logger.debug("Configuration loaded:", CONFIG);
   }
   CONFIG.logger.debug("Event:", event);

@@ -39,6 +39,20 @@ data "aws_iam_policy_document" "lambda_logs_policy_doc" {
   }
 }
 
+resource "aws_iam_role_policy" "ssm_parameter_role_policy" {
+  name   = "${var.project_name}-ssm-parameter-policy"
+  role   = aws_iam_role._.id
+  policy = data.aws_iam_policy_document.lambda_ssm_parameter_policy_doc.json
+}
+
+data "aws_iam_policy_document" "lambda_ssm_parameter_policy_doc" {
+  statement {
+    effect    = "Allow"
+    resources = [aws_ssm_parameter.configuration.arn]
+    actions   = ["ssm:GetParameter"]
+  }
+}
+
 resource "aws_s3_bucket_policy" "spa_policy" {
   bucket = data.terraform_remote_state.artifacts.outputs.spa_bucket
   policy = data.aws_iam_policy_document.spa_cloudfront.json

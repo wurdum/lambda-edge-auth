@@ -18,7 +18,7 @@ tf-aws-apply:
 build:
 	@echo 'Building code and docker image'
 	npm run build
-	zip -j dist/package.zip dist/* package.json package-lock.json configuration.json
+	zip -j dist/package.zip dist/* package.json package-lock.json
 	@echo 'Done!'
 
 clean:

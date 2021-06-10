@@ -12,6 +12,5 @@ COPY --from=build /src/package*.json ./
 RUN npm install --only=production
 
 COPY --from=build /src/dist ./
-COPY --from=build /src/configuration.json ./
 
 CMD [ "index.httpHeadersHandler" ]

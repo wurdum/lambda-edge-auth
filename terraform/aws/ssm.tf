@@ -1,13 +1,14 @@
-resource "aws_ssm_parameter" "foo" {
-  name = var.project_name
-  type = "String"
+resource "aws_ssm_parameter" "configuration" {
+  name      = var.project_name
+  type      = "String"
+  overwrite = true
 
   value = jsonencode({
-    userPoolArn       = aws_cognito_user_pool.pool.arn
-    clientId          = aws_cognito_user_pool_client.client.id
-    clientSecret      = aws_cognito_user_pool_client.client.client_secret
-    oauthScopes       = ["phone", "email", "profile", "openid", "aws.cognito.signin.user.admin"]
-    cognitoAuthDomain = "https://${aws_cognito_user_pool_domain.domain.domain}.auth.${var.region}.amazoncognito.com"
+    userPoolArn             = aws_cognito_user_pool.pool.arn
+    clientId                = aws_cognito_user_pool_client.client.id
+    clientSecret            = aws_cognito_user_pool_client.client.client_secret
+    oauthScopes             = ["phone", "email", "profile", "openid", "aws.cognito.signin.user.admin"]
+    cognitoAuthDomain       = "${aws_cognito_user_pool_domain.domain.domain}.auth.${var.region}.amazoncognito.com"
     redirectPathSignIn      = "/parseauth"
     redirectPathSignOut     = "/"
     redirectPathAuthRefresh = "/refreshauth"
