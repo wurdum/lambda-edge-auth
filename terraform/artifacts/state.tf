@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "wu-local-test-container-lambda"
-    key    = "test-container-lambda-aws.tfstate"
+    bucket = "wu-lambda-edge-auth"
+    key    = "lambda-edge-auth-artifacts.tfstate"
     region = "us-east-1"
   }
 }

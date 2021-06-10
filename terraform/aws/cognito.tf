@@ -1,5 +1,15 @@
 resource "aws_cognito_user_pool" "pool" {
   name = "wu-${var.project_name}"
+
+  // Only for POC purposes.
+  password_policy {
+    minimum_length                   = 6
+    temporary_password_validity_days = 365
+    require_lowercase                = false
+    require_numbers                  = false
+    require_symbols                  = false
+    require_uppercase                = false
+  }
 }
 
 resource "aws_cognito_user_pool_client" "client" {
