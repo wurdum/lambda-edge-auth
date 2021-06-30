@@ -1,0 +1,2 @@
+Run `make all version=1.0` to provision infrastructure and deploy auth lambdas.
+Run `make tf-destroy` to destroy provisioned infrastructure. Note, that you can receive error with the message `Lambda was unable to delete...` which is caused by the AWS as it can't destroy replicated edge lambdas in a moment see [https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-edge-delete-replicas.html](docs). Retry in an hour and terraform will clean provisioned lambdas.
